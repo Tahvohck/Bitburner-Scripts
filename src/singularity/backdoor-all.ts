@@ -5,19 +5,14 @@ export async function main(ns:NS) {
     ns.clearLog()
     ns.enableLog("singularity.installBackdoor")
     ns.enableLog("singularity.connect")
-    await recursiveBackdoor(ns, [ns.singularity.getCurrentServer()])
+    await recursiveBackdoor(ns, new Set([ns.singularity.getCurrentServer()]))
 }
 
-async function recursiveBackdoor(ns:NS, alreadyVisited: string[]) {
+async function recursiveBackdoor(ns:NS, alreadyVisited: Set<string>) {
     const currentServer = ns.singularity.getCurrentServer()
-
+    
     for (const link of NETWORK_LINKS.get(currentServer)!) {
-        if (alreadyVisited.includes(link)) continue;
-        if (ns.getServer(link).backdoorInstalled) {
-            alreadyVisited.push(link)
-            ns.print("No need to backdoor " + link)
-            continue
-        }
+        if (alreadyVisited.has(link)) continue
         try { ns.brutessh (link) } catch {}
         try { ns.ftpcrack (link) } catch {}
         try { ns.relaysmtp(link) } catch {}
@@ -27,10 +22,13 @@ async function recursiveBackdoor(ns:NS, alreadyVisited: string[]) {
             ns.nuke(link);
             ns.scp([ns.getScriptName(), "sys/network.js"], link)
             ns.singularity.connect(link)
-            ns.tprint(`Connected to ${link}, backdooring`)
-            await ns.singularity.installBackdoor()
-            ns.tprint("Backdoor complete.")
-            alreadyVisited.push(link)
+            let server = ns.getServer(link)!
+            if (!server.backdoorInstalled && (server.requiredHackingSkill || 0) < ns.getHackingLevel()) {
+                ns.tprint(`Connected to ${link}, backdooring`)
+                await ns.singularity.installBackdoor()
+                ns.tprint("Backdoor complete.")
+            }
+            alreadyVisited.add(link)
             ns.print(`${currentServer} -> ${link}`)
             await recursiveBackdoor(ns, alreadyVisited)
         } catch {
