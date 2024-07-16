@@ -273,7 +273,13 @@ export async function main(ns: NS) {
                     break;
                 }
                 case BIOSNetworkMessageType.UPDATE_SERVER: {
-                    ALL_SERVERS.set(data.message, new StaticServerInfo(ns.getServer(data.message)))
+                    try {
+                        const server = ns.getServer(data.message)
+                        ALL_SERVERS.set(data.message, new StaticServerInfo(server))
+                    } catch {
+                        ns.tprintRaw(<BIOSTermWarn>Sent a bad server to update: {data.message}</BIOSTermWarn>)    
+                    }
+                    break;
                 }
             }
         }
