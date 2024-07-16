@@ -123,6 +123,7 @@ export async function main(ns: NS) {
     // Rebuild these entirely from scratch each time
     ALL_SERVERS.clear();
     NETWORK_LINKS.clear();
+    NETWORK_LINKS.set("home", new Set())
     for (const [name, links] of scanRecursive(ns)) {
         let server = ns.getServer(name)
         ALL_SERVERS.set(name, new StaticServerInfo(server));
