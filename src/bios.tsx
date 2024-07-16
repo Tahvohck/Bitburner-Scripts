@@ -95,6 +95,7 @@ function catchExit(ns: NS, page: Pagefile) {
 }
 
 export async function main(ns: NS) {
+    ns.ramOverride(4.4)
     // First setup: self-terminate if another BIOS is running. Disable logs. Set up kill-catch.
     if (ns.getRunningScript(ns.getScriptName())?.pid != ns.getRunningScript()?.pid) {
         throw new Error("Cannot run more than one BIOS at a time. Kill the old one first.")
