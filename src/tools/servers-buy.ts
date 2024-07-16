@@ -9,8 +9,6 @@ const Options = {
 
 const FLAGS = [...Object.entries(Options)]
 const ram_amounts = [...Array(20).keys()].map(k => 2 ** (k + 1))
-const base_cost = 55_000
-const cost_array = ram_amounts.map(n => n * base_cost)
 
 export function autocomplete(data: AutocompleteData, args: ScriptArg[]) {
     data.flags(FLAGS)
@@ -18,6 +16,7 @@ export function autocomplete(data: AutocompleteData, args: ScriptArg[]) {
 }
 
 export async function main(ns:NS) {
+    const cost_array = ram_amounts.map(n => ns.getPurchasedServerCost(n))
     const options = ns.flags(FLAGS) as typeof Options;
     const ram_strings = ram_amounts.map(n => ns.formatRam(n, 0))
     const cost_strings = cost_array.map(n => ns.formatNumber(n))
