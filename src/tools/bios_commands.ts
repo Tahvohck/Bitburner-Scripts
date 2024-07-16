@@ -1,6 +1,6 @@
 import { AutocompleteData, NS, ScriptArg } from '@ns'
-import { Ports } from 'sys/ports'
-import { BIOSNetworkMessage as BIOSNetworkMessage, BIOSNetworkMessageType } from 'bios'
+import { BIOSNetworkMessage, BIOSNetworkMessageType } from '/bios'
+import { Ports } from '/sys/ports'
 
 const Options = {
     KILL_ORPHAN_ALLOCATIONS: false,

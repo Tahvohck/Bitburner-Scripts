@@ -1,11 +1,10 @@
 import { NS } from "@ns";
+import { StaticServerInfo, scanRecursive } from "/lib/network";
+import { Pagefile, ServerRamUsage, free, halloc } from "/lib/ram";
+import { RAM_ALLOCATIONS, RAM_SOURCES, getSource } from "/sys/memory";
+import { ALL_SERVERS, NETWORK_LINKS } from "/sys/network";
+import { NullPort, Ports } from "/sys/ports";
 const { React, ReactDOM } = globalThis;
-import { ALL_SERVERS, NETWORK_LINKS } from "sys/network";
-import { StaticServerInfo, scanRecursive } from "lib/network";
-import { Pagefile, ReservedRAM, ServerRamUsage, free, halloc } from "lib/ram";
-import { RAM_ALLOCATIONS, RAM_SOURCES, getSource } from "sys/memory";
-import { NullPort, Ports } from "sys/ports";
-import { ReactComponentElement } from "react";
 
 const CORE_SCRIPTS = [
     'tools/monitor-all.js'

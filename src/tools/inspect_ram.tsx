@@ -1,6 +1,6 @@
-import { RAM_SOURCES } from "sys/memory";
 import { AutocompleteData, NS, ScriptArg } from "@ns";
-import { free, getFreeThreads } from "lib/ram";
+import { getFreeThreads } from "lib/ram";
+import { RAM_SOURCES } from "sys/memory";
 const {React} = globalThis;
 
 const Options = {

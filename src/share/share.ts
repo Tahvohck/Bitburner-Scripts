@@ -1,6 +1,5 @@
-import { malloc, free, Pagefile } from "/lib/ram";
-import { NS } from "@ns";
-import { AutocompleteData, ScriptArg } from "@ns";
+import { AutocompleteData, NS, ScriptArg } from "@ns";
+import { Pagefile, free, malloc } from "/lib/ram";
 
 const Options = {
     threads: 10_000
