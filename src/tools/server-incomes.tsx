@@ -23,7 +23,7 @@ function TableRow(data: TableRowData) {
             <td style={cellStyle}>{data.moneyPerHackStr}</td>
             <td style={cellStyle}>{data.moneyHackRateStr} sec</td>
             <td style={cellStyle}>{data.moneyMaxStr}</td>
-            <td style={cellStyle}>{data.hackRequirement}</td>
+            <td style={cellStyle}>{data.hackRequirement.toLocaleString()}</td>
         </tr>
     )
 }

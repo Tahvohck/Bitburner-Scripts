@@ -1,6 +1,6 @@
 import { NS } from "@ns";
 import { StaticServerInfo, scanRecursive } from "/lib/network";
-import { Pagefile, ServerRamUsage, free, halloc } from "/lib/ram";
+import { Pagefile, ReservedRAM, ServerRamUsage, free, halloc } from "/lib/ram";
 import { RAM_ALLOCATIONS, RAM_SOURCES, getSource } from "/sys/memory";
 import { ALL_SERVERS, NETWORK_LINKS } from "/sys/network";
 import { NullPort, Ports } from "/sys/ports";
@@ -159,7 +159,7 @@ export async function main(ns: NS) {
         let newSRU = new ServerRamUsage(ssi)
         //@ts-expect-error We're doing some fucky things here, so ignore the error
         delete staleSource.max
-        newSRU = Object.assign(newSRU, staleSource)
+        newSRU = Object.assign(newSRU, )
         // now put it back into the sources array.
         RAM_SOURCES.unshift(newSRU)
     }
@@ -178,10 +178,15 @@ export async function main(ns: NS) {
     for (const alloc of MEM_MAP.getAll()) {
         free(alloc)
     }
-    // This is the first allocation: We definitely have enough space to allocate this.
-    MEM_MAP.push(
-        halloc(1, 16,"home")!.associate(ns.pid)
-    );
+    // This is the first allocation: We definitely have enough space to allocate this. If it fails, something is
+    // terrible.
+    try {
+        MEM_MAP.push(
+            halloc(1, 16,"home")!.associate(ns.pid)
+        );
+    } catch {
+        throw new Error("Aborting BIOS load, unable to allocate core block.")
+    }
 
     ////////////////
     // BIOS standby loop

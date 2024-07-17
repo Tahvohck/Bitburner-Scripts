@@ -28,6 +28,7 @@ async function recursiveBackdoor(ns:NS, root: string, alreadyVisited: Set<string
                 await ns.singularity.installBackdoor()
                 ns.tprint("Backdoor complete.")
             }
+            await ns.asleep(20)
             alreadyVisited.add(link)
             ns.print(`${root} -> ${link}`)
             await recursiveBackdoor(ns, link, alreadyVisited)
