@@ -5,13 +5,13 @@ export async function main(ns:NS) {
     ns.clearLog()
     ns.enableLog("singularity.installBackdoor")
     ns.enableLog("singularity.connect")
-    await recursiveBackdoor(ns, new Set([ns.singularity.getCurrentServer()]))
+    await recursiveBackdoor(ns, ns.getHostname(), new Set([ns.getHostname()]))
+    ns.tprint("Backdoor session complete.")
 }
 
-async function recursiveBackdoor(ns:NS, alreadyVisited: Set<string>) {
-    const currentServer = ns.singularity.getCurrentServer()
+async function recursiveBackdoor(ns:NS, root: string, alreadyVisited: Set<string>) {
     
-    for (const link of NETWORK_LINKS.get(currentServer)!) {
+    for (const link of NETWORK_LINKS.get(root)!) {
         if (alreadyVisited.has(link)) continue
         try { ns.brutessh (link) } catch {}
         try { ns.ftpcrack (link) } catch {}
@@ -29,11 +29,11 @@ async function recursiveBackdoor(ns:NS, alreadyVisited: Set<string>) {
                 ns.tprint("Backdoor complete.")
             }
             alreadyVisited.add(link)
-            ns.print(`${currentServer} -> ${link}`)
-            await recursiveBackdoor(ns, alreadyVisited)
+            ns.print(`${root} -> ${link}`)
+            await recursiveBackdoor(ns, link, alreadyVisited)
         } catch {
         } finally {
-            ns.singularity.connect(currentServer);
+            ns.singularity.connect(root);
         }
     }
 }
