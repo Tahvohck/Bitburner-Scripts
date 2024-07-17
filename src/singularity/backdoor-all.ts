@@ -23,6 +23,7 @@ async function recursiveBackdoor(ns:NS, root: string, alreadyVisited: Set<string
             ns.scp([ns.getScriptName(), "sys/network.js"], link)
             ns.singularity.connect(link)
             let server = ns.getServer(link)!
+            ns.print(`${root} -> ${link}`)
             if (!server.backdoorInstalled && (server.requiredHackingSkill || 0) < ns.getHackingLevel()) {
                 ns.tprint(`Connected to ${link}, backdooring`)
                 await ns.singularity.installBackdoor()
@@ -30,10 +31,10 @@ async function recursiveBackdoor(ns:NS, root: string, alreadyVisited: Set<string
             }
             await ns.asleep(20)
             alreadyVisited.add(link)
-            ns.print(`${root} -> ${link}`)
             await recursiveBackdoor(ns, link, alreadyVisited)
         } catch {
         } finally {
+            ns.print(`${root} <-`)
             ns.singularity.connect(root);
         }
     }
