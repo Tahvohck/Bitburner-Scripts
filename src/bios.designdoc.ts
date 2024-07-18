@@ -25,6 +25,7 @@ export declare function tryNuke(ns: NS, target: string): boolean
 export async function main(ns:NS) {
     /** initial setup
      * 
+     * Imports bloat the RAM size, so override the static analyzer right off the bat.
      * check for other running BIOS files and exit if needed
      * disable logging
      * set up exit catch
@@ -44,6 +45,7 @@ export async function main(ns:NS) {
      */
 
     /** RAM initialization
+     * 
      * store the current size of RAM_SOURCES (it will be changing as we operate on it)
      * for each index in RAM_SOURCES, do this:
      *      pop a source from RAM_SOURCES
@@ -60,27 +62,44 @@ export async function main(ns:NS) {
      */
 
     /** Add any unknown sources */
-    updateRamSources(ns)
+    updateRamSources()
 
+    /** Home server RAM reservation
+     * 
+     * Reserve 16 GiB for the BIOS and any manually-run scripts
+     */
+    
+    /** initialize BIOS port */
     /** initialization done. Sit in the main loop. */
-    await mainLoop(ns)
+    await mainLoop()
 }
+
+////////////////////////////////
+////////////////////////////////
+// These functions are listed separately in the design document, but will likely be declared inside 
+// of the main() function in the actual development code to take advantage of scope closures.
+////////////////////////////////
+////////////////////////////////
 
 /** Run after initial setup is done. Continuously monitor the system and fix issues.
  *  Respond to system calls.
  */
-async function mainLoop(ns:NS) {
+async function mainLoop() {
     while (true) {
-        updateRamSources(ns)
-        
-        await ns.sleep(400)     // Run this loop five times in two seconds.
+        updateRamSources()
+        findNewBackdoors()
+        readNetworkMessages()
+                
+        /**
+         * wait for some amount of time before running the next loop iteration.
+         */
     }
 }
 
 /** Find all possible new sources of networked RAM and add them to RAM_SOURCES
  * @param ns 
  */
-function updateRamSources(ns: NS) {
+function updateRamSources() {
     /**
      * Map RAM_SOURCES to just hostnames
      * Reduce ALL_SERVERS to those with any RAM that are not already in RAM_SOURCES
@@ -88,5 +107,27 @@ function updateRamSources(ns: NS) {
      *      tryNuke()
      *      if that fails, skip this entry
      *      if it doesn't fail, create a new SRU and push it to RAM_SOURCES
+     */
+}
+
+function findNewBackdoors() {
+    /**
+     * Reduce ALL_SERVERS to those not in home's network links
+     * for each entry remaining:
+     *      get live server data
+     *      if server is backdoored, add a bidirectional link to home
+     */
+}
+
+function readNetworkMessages() {
+    /**
+     * While BIOS port has data
+     * read data
+     * validate data
+     * switch on data, run one of the following:
+     *      handleEchoRequest()
+     *      handleKillOrphanAllocations()
+     *      handleResetAllocationAmount()
+     *      handleUpdateServer()
      */
 }
