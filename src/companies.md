@@ -7,10 +7,28 @@ _"Proprietary bionic augmentations"_
 
 ### Four Sigma
 _"Range of versatile augmentations"_  
-**Specialty:**  
+**Specialty:**  None
+- ADR-V1 Pheromone Gene  
+- ADR-V2 Pheromone Gene  
+- Enhanced Social Interaction Implant  
+- FocusWire  
+- Neuralstimulator  
+- NeuroFlux Governor  
+- Neurotrainer III  
+- Nuoptimal Nootropic Injector Implant  
+- PC Direct-Neural Interface  
+- Speech Enhancement  
 
 ### MegaCorp
-
+_"Proprietary biotech augmentations"_  
+**Specialty:**  CordiARC Fusion Reactor
+- ADR-V1 Pheromone Gene
+- Embedded Netburner Module
+- Embedded Netburner - Analyze Engine
+- Embedded Netburner - Core Implant, V2, V3
+- Embedded Netburner - Direct Memory Access Upgrade
+- Graphene Bionic Legs Upgrade
+- NeuroFlux Governor
 
 ---
 # Aevum
@@ -25,22 +43,34 @@ _"Proprietary neurotech augmentations"_
 ### ECorp
 _""_  
 **Specialty:** ECorp HVMind  
-- Netburner (base)
-- Netburner upgrades
-- Graphene bionic parts
-- PC Direct-Neural (base)
-- PC Direct-Neural upgrade
+- Embedded Netburner Module
+- Embedded Netburner - Analyze Engine
+- Embedded Netburner - Core Implant, V2, V3
+- Embedded Netburner - Direct Memory Access Upgrade
+- Graphene Bionic Legs Upgrade
+- Graphene Bionic Spine Upgrade
+- NeuroFlux Governor
+- PC Direct-Neural Interface
+- PC Direct-Neural Interface Optimization Submodule
 
 ### Fulcrum Secret Technologies  
 _"A company system with access to proprietary neural network augmentations"_  
 **Specialty:**  PC Direct-Neural NeuroNet Injector  
-- Graphene bionic parts
-- Netburner (base)
-- Netburner upgrades
+Artificial Bio-neural Network Implant
+- Embedded Netburner Module
+- Embedded Netburner - Analyze Engine
+- Embedded Netburner - Core Implant, V2, V3
+- Embedded Netburner - Direct Memory Access Upgrade
+- Enhanced Myelin Sheathing
+- Graphene Bionic Legs Upgrade
+- Graphene Bionic Spine Upgrade
+- Graphene Bone Lacings
+- NEMEAN Subdermal Weave
+- Nanofiber Weave
+- NeuroFlux Governor
+- PC Direct-Neural Interface Optimization Submodule
 - Synfibril Muscle
 - Synthetic Heart
-- NEMEAN Subdermal
-- Enhanced Myelin
 
 ---
 # Volhaven
@@ -58,15 +88,17 @@ _""_
 ### KuaiGong International
 _"Proprietary dermatech"_  
 **Specialty:** Photosynthetic Cells  
-- Augmented targeting I, II, III
-- Bionic Spine, Legs
+- Augmented Targeting I, II, III
+- Bionic Legs
+- Bionic Spine
 - Combat Rib I, II, III
+- Embedded Netburner Module Core V2 Upgrade
 - FocusWire
 - HyperSight Corneal Implant
-- Netburner core V2 upgrade
+- NeuroFlux Governor
+- Speech Enhancement
 - Synfibril Muscle
 - Synthetic Heart
-- Speech enhancements
 
 ---
 # Ishima
