@@ -22,6 +22,7 @@ async function recursiveBackdoor(ns:NS, root: string, alreadyVisited: Set<string
         let running = {value: true}
         ns.tprintRaw(<BackdoorEntry name={root} running={running} />)
         await ns.singularity.installBackdoor()
+        ns.singularity.connect(root);   // User can connect to other servers during backdoor, reconnect just in case.
         running.value = false
     }
     
