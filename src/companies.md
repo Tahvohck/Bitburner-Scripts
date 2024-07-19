@@ -3,7 +3,20 @@
 # Sector 12
 ### Blade Industries
 _"Proprietary bionic augmentations"_  
-**Specialty:**  
+**Specialty:**  Neotra
+- Augmented Targeting I, II, III
+- Bionic Legs
+- Bionic Spine
+- Combat Rib I, II, III
+- Embedded Netburner Module
+- Embedded Netburner Module Core, V2
+- HyperSight Corneal Implant
+- Nanofiber Weave
+- NeuroFlux Governor
+- PC Direct-Neural Interface
+- PC Direct-Neural Interface Optimization Submodule
+- Pre-requisites Owned
+- Synfibril Muscle
 
 ### Four Sigma
 _"Range of versatile augmentations"_  
