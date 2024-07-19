@@ -62,7 +62,7 @@ export async function main(ns:NS) {
 
 function parseRelevantData(ns: NS, ssi: StaticServerInfo): TableRowData {
     const {hostname, moneyMax, hackRequirement } = ssi
-    const hackTime = ns.getHackTime(hostname)
+    const hackTime = ns.getHackTime(hostname) / 1000
     const hackAmountNow = ns.getServerMoneyAvailable(hostname) * 0.2
     const moneyPerHackStr = ns.formatNumber(hackAmountNow).padStart(8)
     const moneyHackRateStr = ns.formatNumber(1e6 / (hackAmountNow / hackTime),1).padStart(8)
