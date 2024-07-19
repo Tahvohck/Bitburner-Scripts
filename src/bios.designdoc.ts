@@ -2,6 +2,11 @@ import { NS } from "@ns";
 const {React} = globalThis;
 
 
+////////////////////////////////
+////////////////////////////////
+// Actual functions/constants
+////////////////////////////////
+////////////////////////////////
 /** Common style components for BIOS JSX tags */
 const BIOS_TermMsgStyleCommon: React.CSSProperties = {}
 /** Common arguments for JSX tags */
@@ -11,7 +16,6 @@ function BIOS_TermWarn({}: BIOS_TerminalMessageArg): void {}
 /** JSX tag for info messages from the BIOS */
 function BIOS_TermInfo({}: BIOS_TerminalMessageArg): void {}
 
-
 let crackers: number;
 /** find out how many crackers are currently working */
 export declare function getCrackerCount(): number;
@@ -19,6 +23,69 @@ export declare function getCrackerCount(): number;
 export declare function tryNuke(ns: NS, target: string): boolean
 
 
+////////////////////////////////
+////////////////////////////////
+// These functions are listed separately in the design document, but will likely be declared inside 
+// of the main() function in the actual development code to take advantage of scope closures.
+////////////////////////////////
+////////////////////////////////
+/** Run after initial setup is done. Continuously monitor the system and fix issues.
+ *  Respond to system calls.
+ */
+async function mainLoop() {
+    while (true) {
+        updateRamSources()
+        findNewBackdoors()
+        readNetworkMessages()
+                
+        /**
+         * wait for some amount of time before running the next loop iteration.
+         */
+    }
+}
+
+/** Find all possible new sources of networked RAM and add them to RAM_SOURCES
+ * @param ns 
+ */
+function updateRamSources() {
+    /**
+     * Map RAM_SOURCES to just hostnames
+     * Reduce ALL_SERVERS to those with any RAM that are not already in RAM_SOURCES
+     * for each entry remaining:
+     *      tryNuke()
+     *      if that fails, skip this entry
+     *      if it doesn't fail, create a new SRU and push it to RAM_SOURCES
+     */
+}
+
+function findNewBackdoors() {
+    /**
+     * Reduce ALL_SERVERS to those not in home's network links
+     * for each entry remaining:
+     *      get live server data
+     *      if server is backdoored, add a bidirectional link to home
+     */
+}
+
+function readNetworkMessages() {
+    /**
+     * While BIOS port has data
+     * read data
+     * validate data
+     * switch on data, run one of the following:
+     *      handleEchoRequest()
+     *      handleKillOrphanAllocations()
+     *      handleResetAllocationAmount()
+     *      handleUpdateServer()
+     */
+}
+
+
+////////////////////////////////
+////////////////////////////////
+// Program entrypoint.
+////////////////////////////////
+////////////////////////////////
 /** Main function. Initial setup and gating.
  * @param ns 
  */
@@ -72,62 +139,4 @@ export async function main(ns:NS) {
     /** initialize BIOS port */
     /** initialization done. Sit in the main loop. */
     await mainLoop()
-}
-
-////////////////////////////////
-////////////////////////////////
-// These functions are listed separately in the design document, but will likely be declared inside 
-// of the main() function in the actual development code to take advantage of scope closures.
-////////////////////////////////
-////////////////////////////////
-
-/** Run after initial setup is done. Continuously monitor the system and fix issues.
- *  Respond to system calls.
- */
-async function mainLoop() {
-    while (true) {
-        updateRamSources()
-        findNewBackdoors()
-        readNetworkMessages()
-                
-        /**
-         * wait for some amount of time before running the next loop iteration.
-         */
-    }
-}
-
-/** Find all possible new sources of networked RAM and add them to RAM_SOURCES
- * @param ns 
- */
-function updateRamSources() {
-    /**
-     * Map RAM_SOURCES to just hostnames
-     * Reduce ALL_SERVERS to those with any RAM that are not already in RAM_SOURCES
-     * for each entry remaining:
-     *      tryNuke()
-     *      if that fails, skip this entry
-     *      if it doesn't fail, create a new SRU and push it to RAM_SOURCES
-     */
-}
-
-function findNewBackdoors() {
-    /**
-     * Reduce ALL_SERVERS to those not in home's network links
-     * for each entry remaining:
-     *      get live server data
-     *      if server is backdoored, add a bidirectional link to home
-     */
-}
-
-function readNetworkMessages() {
-    /**
-     * While BIOS port has data
-     * read data
-     * validate data
-     * switch on data, run one of the following:
-     *      handleEchoRequest()
-     *      handleKillOrphanAllocations()
-     *      handleResetAllocationAmount()
-     *      handleUpdateServer()
-     */
 }
