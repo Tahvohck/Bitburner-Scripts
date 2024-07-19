@@ -21,7 +21,7 @@ function TableRow(data: TableRowData) {
         <tr>
             <td>{data.hostname}</td>
             <td style={cellStyle}>{data.moneyPerHackStr}</td>
-            <td style={cellStyle}>{data.moneyHackRateStr} sec</td>
+            <td style={cellStyle}>{data.moneyHackRateStr}</td>
             <td style={cellStyle}>{data.moneyMaxStr}</td>
             <td style={cellStyle}>{data.hackRequirement.toLocaleString()}</td>
         </tr>
@@ -62,10 +62,10 @@ export async function main(ns:NS) {
 
 function parseRelevantData(ns: NS, ssi: StaticServerInfo): TableRowData {
     const {hostname, moneyMax, hackRequirement } = ssi
-    const hackTime = ns.getHackTime(hostname) / 1000
+    const hackTime = ns.getHackTime(hostname)
     const hackAmountNow = ns.getServerMoneyAvailable(hostname) * 0.2
     const moneyPerHackStr = ns.formatNumber(hackAmountNow).padStart(8)
-    const moneyHackRateStr = ns.formatNumber(1e6 / (hackAmountNow / hackTime),1).padStart(8)
+    const moneyHackRateStr = convertMsToReadable(1e6 / (hackAmountNow / hackTime)).padStart(8)
     const moneyMaxStr = ns.formatNumber(moneyMax)
     return {
         hostname,
@@ -74,4 +74,24 @@ function parseRelevantData(ns: NS, ssi: StaticServerInfo): TableRowData {
         moneyPerHackStr,
         hackRequirement,
     } as TableRowData
+}
+
+function convertMsToReadable(ms: number): string {
+    const threshMs = 1500
+    const threshS = 300
+    const threshMin = 100
+    ms = Math.floor(ms)
+    if (ms < threshMs) {
+        return ms.toLocaleString() + " ms"
+    }
+    const sec = Math.floor(ms/ 100) / 10
+    if (sec < threshS) {
+        return sec.toLocaleString() + " sec"
+    }
+    const min = Math.floor(sec / 6) / 10
+    if (min < threshMin) {
+        return min.toLocaleString() + " min"
+    }
+    const hour = Math.floor(min / 6) / 10
+    return hour.toLocaleString() + " hr"
 }
