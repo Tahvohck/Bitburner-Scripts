@@ -56,6 +56,16 @@ function RAM_UpdateSources() {
      */
 }
 
+/** Iterate over every allocation and sum up actual usage. */
+function RAM_RebuildUsage() {
+    /**
+     * Reduce RAM_ALLOCATIONS to those with no associated script, or an associated script that's still running
+     * use Array.map() fuckery to convert that to a dictionary {source: number} that is the real, in-use amount
+     * set each source that exists usage to that value
+     * free any allocations that no longer have a source
+     */
+}
+
 function findNewBackdoors() {
     /**
      * Reduce ALL_SERVERS to those not in home's network links
