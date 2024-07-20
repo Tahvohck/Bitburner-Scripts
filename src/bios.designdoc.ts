@@ -34,7 +34,7 @@ export declare function tryNuke(ns: NS, target: string): boolean
  */
 async function mainLoop() {
     while (true) {
-        updateRamSources()
+        RAM_UpdateSources()
         findNewBackdoors()
         readNetworkMessages()
                 
@@ -44,10 +44,8 @@ async function mainLoop() {
     }
 }
 
-/** Find all possible new sources of networked RAM and add them to RAM_SOURCES
- * @param ns 
- */
-function updateRamSources() {
+/** Find all possible new sources of networked RAM and add them to RAM_SOURCES */
+function RAM_UpdateSources() {
     /**
      * Map RAM_SOURCES to just hostnames
      * Reduce ALL_SERVERS to those with any RAM that are not already in RAM_SOURCES
@@ -129,7 +127,7 @@ export async function main(ns:NS) {
      */
 
     /** Add any unknown sources */
-    updateRamSources()
+    RAM_UpdateSources()
 
     /** Home server RAM reservation
      * 
