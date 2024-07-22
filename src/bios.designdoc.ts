@@ -105,7 +105,6 @@ export async function main(ns:NS) {
      * disable logging
      * set up exit catch
      * nuke home to establish cracker count
-     * Initialize {@link Pagefile}
      */
 
     /** Network initialization
@@ -139,6 +138,7 @@ export async function main(ns:NS) {
 
     /** Home server RAM reservation
      * 
+     * Initialize {@link Pagefile}
      * Reserve 16 GiB for the BIOS and any manually-run scripts
      */
     
