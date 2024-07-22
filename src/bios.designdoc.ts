@@ -131,12 +131,11 @@ export async function main(ns:NS) {
      *      create a new ServerRamUsage from the current SSI
      *      Assign stale SRU usage to fresh SRU usage
      *      unshift new SRU into RAM_SOURCES
-     * Reduce ALL_SERVERS to just those with more than zero RAM, use in this block
-     * for each server in red
      */
 
     /** Add any unknown sources */
     RAM_UpdateSources()
+    RAM_RebuildUsage();
 
     /** Home server RAM reservation
      * 
