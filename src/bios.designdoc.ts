@@ -129,8 +129,7 @@ export async function main(ns:NS) {
      *      skip any undefined or null SSI (this gets rid of any nonexistant servers, i.e. after an aug)
      *      skip any SSI that are not owned by us and need more open ports than we have crackers
      *      create a new ServerRamUsage from the current SSI
-     *      delete max ram from stale SRU
-     *      Assign stale SRU to new SRU
+     *      Assign stale SRU usage to fresh SRU usage
      *      unshift new SRU into RAM_SOURCES
      * Reduce ALL_SERVERS to just those with more than zero RAM, use in this block
      * for each server in red
