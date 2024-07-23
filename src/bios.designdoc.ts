@@ -36,7 +36,8 @@ async function mainLoop() {
     // In production, this true is actually a flag that allows for clean exit from the loop.
     // it can be set by sending a command over the network port
     while (true) {
-        findNewBackdoors()
+        NETWORK_findNewServers()
+        NETWORK_findNewBackdoors()
         RAM_UpdateSources()
         readNetworkMessages()
                 
@@ -69,12 +70,22 @@ function RAM_RebuildUsage() {
 }
 
 /** Find servers that are now backoored but weren't previously */
-function findNewBackdoors() {
+function NETWORK_findNewBackdoors() {
     /**
      * Reduce ALL_SERVERS to those not in home's network links
      * for each entry remaining:
      *      get live server data
      *      if server is backdoored, add a bidirectional link to home
+     */
+}
+
+function NETWORK_findNewServers() {
+    /**
+     * perfom new network scan
+     * reduce results to those not in ALL_SERVERS
+     * for each entry remaining:
+     *      create new SSI
+     *      push SSI to ALL_SERVERS
      */
 }
 
