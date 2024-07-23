@@ -39,6 +39,7 @@ async function mainLoop() {
         NETWORK_findNewServers()
         NETWORK_findNewBackdoors()
         RAM_UpdateSources()
+        RAM_UpdatePersonalServers()
         readNetworkMessages()
                 
         /**
@@ -66,6 +67,16 @@ function RAM_RebuildUsage() {
      * use Array.reduce() fuckery to convert that to a Map<string, number> that is the real, in-use amount
      * set each source that exists usage to that value
      * free any allocations that no longer have a source
+     */
+}
+
+/** Update information for all personal servers */
+function RAM_UpdatePersonalServers() {
+    /**
+     * for every server in ALL_SERVERS that is a personal server:
+     *      get live data
+     *      update live data
+     *      update the max RAM
      */
 }
 
