@@ -127,8 +127,8 @@ export async function main(ns:NS) {
      *      get SSI for current source
      *      skip any undefined or null SSI (this gets rid of any nonexistant servers, i.e. after an aug)
      *      skip any SSI that are not owned by us and need more open ports than we have crackers
+     *      tryNuke() - do this in case it's a fresh aug
      *      create a new ServerRamUsage from the current SSI
-     *      Assign stale SRU usage to fresh SRU usage
      *      unshift new SRU into RAM_SOURCES
      */
 
