@@ -149,11 +149,7 @@ export async function main(ns:NS) {
      * 
      * Reset {@link ALL_SERVERS}, {@link NETWORK_LINKS}
      * Add home to the initial network with no links
-     * Recursively scan the network, for each result:
-     *      get the server
-     *      Set the Static Server Info for the server and add to ALL_SERVERS
-     *      Add the links for the server to NETWORK_LINKS
-     *      if the server is backdoored: add home to the links, add a link to it from home
+     * NETWORK_findNewServers()
      */
 
     /** RAM initialization
