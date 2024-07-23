@@ -36,8 +36,8 @@ async function mainLoop() {
     // In production, this true is actually a flag that allows for clean exit from the loop.
     // it can be set by sending a command over the network port
     while (true) {
-        RAM_UpdateSources()
         findNewBackdoors()
+        RAM_UpdateSources()
         readNetworkMessages()
                 
         /**
