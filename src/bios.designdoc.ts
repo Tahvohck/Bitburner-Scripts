@@ -38,7 +38,7 @@ async function mainLoop() {
     while (true) {
         NETWORK_findNewServers()
         NETWORK_findNewBackdoors()
-        RAM_UpdateSources()
+        RAM_FindNewSources()
         RAM_UpdatePersonalServers()
         readNetworkMessages()
                 
@@ -52,7 +52,7 @@ async function mainLoop() {
 function pluralize() {}
 
 /** Find all possible new sources of networked RAM and add them to RAM_SOURCES */
-function RAM_UpdateSources() {
+function RAM_FindNewSources() {
     /**
      * Map RAM_SOURCES to just hostnames
      * Reduce ALL_SERVERS to those with any RAM that are not already in RAM_SOURCES
@@ -167,7 +167,7 @@ export async function main(ns:NS) {
      */
 
     /** Add any unknown sources */
-    RAM_UpdateSources()
+    RAM_FindNewSources()
     RAM_RebuildUsage();
 
     /** Home server RAM reservation
