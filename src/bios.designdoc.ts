@@ -112,6 +112,8 @@ export async function main(ns:NS) {
      * disable logging
      * set up exit catch
      * nuke home to establish cracker count
+     * initialize BIOS port
+     * set BIOS running flag to true
      */
 
     /** Network initialization
@@ -149,7 +151,6 @@ export async function main(ns:NS) {
      * Reserve 16 GiB for the BIOS and any manually-run scripts
      */
     
-    /** initialize BIOS port */
     /** initialization done. Sit in the main loop. */
     await mainLoop()
 }
