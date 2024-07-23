@@ -88,6 +88,13 @@ function readNetworkMessages() {
      */
 }
 
+/** Called when script exits, cleans up background tasks. */
+function cleanup() {
+    /**
+     * Remove current PID from core allocation, but leave it in the pagefile
+     */
+}
+
 
 ////////////////////////////////
 ////////////////////////////////
