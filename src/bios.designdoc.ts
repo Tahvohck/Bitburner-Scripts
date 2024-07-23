@@ -100,6 +100,7 @@ function NETWORK_findNewServers() {
      * for each entry remaining:
      *      create new SSI
      *      push SSI to ALL_SERVERS
+     *      push server links to NETWORK_LINKS
      */
 }
 
