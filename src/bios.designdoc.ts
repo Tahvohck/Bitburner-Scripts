@@ -48,6 +48,9 @@ async function mainLoop() {
     }
 }
 
+/** helper function to add an S where needed */
+function pluralize() {}
+
 /** Find all possible new sources of networked RAM and add them to RAM_SOURCES */
 function RAM_UpdateSources() {
     /**
