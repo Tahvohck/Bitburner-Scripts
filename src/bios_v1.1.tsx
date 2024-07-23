@@ -118,7 +118,11 @@ export async function main(ns:NS) {
                 staleCount++
                 continue;
             }
-            if (alloc.pids.length > 0 && alloc.pids.every(pid => !ns.getRunningScript(pid))) {
+            if (alloc.pids.length == 0) {
+                free(alloc);
+                continue;
+            }
+            if (alloc.pids.every(pid => !ns.getRunningScript(pid))) {
                 free(alloc)
                 nonRunningCount++
                 continue
