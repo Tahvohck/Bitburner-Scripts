@@ -66,6 +66,7 @@ function RAM_RebuildUsage() {
      */
 }
 
+/** Find servers that are now backoored but weren't previously */
 function findNewBackdoors() {
     /**
      * Reduce ALL_SERVERS to those not in home's network links
