@@ -98,8 +98,8 @@ function NETWORK_findNewServers() {
      * perfom new network scan
      * reduce results to those not in ALL_SERVERS
      * for each entry remaining:
-     *      create new SSI
-     *      push SSI to ALL_SERVERS
+     *      create new SSI and add it to ALL_SERVERS
+     *      if the server is backdoored, add a bidirectional link to home
      *      push server links to NETWORK_LINKS
      */
 }
