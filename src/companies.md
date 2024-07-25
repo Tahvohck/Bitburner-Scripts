@@ -88,13 +88,32 @@ Artificial Bio-neural Network Implant
 ---
 # Volhaven
 ### NWO  
-_""_  
-**Specialty:**  
+_"Proprietary nanotech augmentations"_  
+**Specialty:** Xanipher, Hydroflame Left Arm  
+- ADR-V1 Pheromone Gene
+- Embedded Netburner Module
+- Embedded Netburner Module Analyze Engine
+- Embedded Netburner Module Core, V2, V3
+- Embedded Netburner Module Direct Memory Access Upgrade
+- Enhanced Social Interaction Implant
+- NeuroFlux Governor
+- Neurotrainer III
+- Power Recirculation Core
+- Synfibril Muscle
+- Synthetic Heart
 
 ### Omnitek Incorporated  
 _""_  
-**Specialty:**  
-
+**Specialty:** OmniTek InfoLoad  
+- Augmented Targeting I, II, III
+- Bionic Legs
+- Bionic Spine
+- Combat Rib I, II, III
+- Embedded Netburner Module Core V2 Upgrade
+- Enhanced Social Interaction Implant
+- Nanofiber Weave
+- NeuroFlux Governor
+- PC Direct-Neural Interface
 
 ---
 # Chongqing
