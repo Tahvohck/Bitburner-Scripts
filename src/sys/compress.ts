@@ -18,7 +18,7 @@ export async function main(ns:NS) {
         }
         case false: {
             //@ts-expect-error Suppress whining about assigning to functions
-            setTimeout = globalThis.nativeTimeout;
+            setTimeout = globalThis.nativeTimeout ?? setTimeout;
             ns.tprint("Time reverted.")
             break;
         }
