@@ -54,7 +54,7 @@ _"Proprietary neurotech augmentations"_
 **Specialty:**  
 
 ### ECorp
-_""_  
+_"Proprietary hacking augmentations"_  
 **Specialty:** ECorp HVMind  
 - Embedded Netburner Module
 - Embedded Netburner - Analyze Engine
