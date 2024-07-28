@@ -3,7 +3,7 @@ import { BIOSNetworkMessage, BIOSNetworkMessageType } from "/bios";
 import { Ports } from "/sys/ports";
 
 const Options = {
-    autoname: false,
+    noautoname: false,
     maxram: false
 }
 
@@ -21,7 +21,7 @@ export async function main(ns:NS) {
     const ram_strings = ram_amounts.map(n => ns.formatRam(n, 0))
     const cost_strings = cost_array.map(n => ns.formatNumber(n))
     let name;
-    if (!options.autoname) {
+    if (options.noautoname) {
         name = await ns.prompt("=".repeat(35) + "\nServer name?", {type: "text"});
     }
     name = `${name || "chef"}-${ns.getPurchasedServers().length}`
