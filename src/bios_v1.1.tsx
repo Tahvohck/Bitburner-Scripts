@@ -3,7 +3,7 @@ import { ALL_SERVERS, NETWORK_LINKS } from "/sys/network";
 import { StaticServerInfo, scanRecursive } from "/lib/network";
 import { RAM_ALLOCATIONS, RAM_SOURCES } from "/sys/memory";
 import { Pagefile, ReservedRAM, ServerRamUsage, free, halloc } from "/lib/ram";
-import { Ports } from "/sys/ports";
+import { NullPort, Ports } from "/sys/ports";
 const { React } = globalThis;
 
 let biosMatcher = /bios.*?\.js/;
@@ -197,6 +197,30 @@ export async function main(ns:NS) {
         }
     }
 
+    /** Read network messages off the BIOS port */
+    function readNetworkMessages() {
+        while(!BIOS_PORT.empty()) {
+            let data = BIOS_PORT.read() as BIOSNetworkMessage | string
+            if (typeof(data) == "string") { continue; }
+            switch (data.type) {
+                case BIOSNetworkMessageType.DEFAULT:
+                    break;
+                case BIOSNetworkMessageType.ECHO:
+                    ns.tprintRaw(<BIOS_TermInfo>ECHO: {data.message}</BIOS_TermInfo>)
+                    break;
+                case BIOSNetworkMessageType.RESET_ALLOCATION_AMOUNT:
+                    RAM_RebuildUsage()
+                    break;
+                case BIOSNetworkMessageType.KILL_ORPHAN_ALLOCATIONS:
+                    let orphans = RAM_ALLOCATIONS
+                        .filter(x => x!= undefined && x.pids.length == 0 )
+                    for (const orphan of orphans) { free(orphan!) }
+                    ns.tprintRaw(<BIOS_TermInfo>Freed {orphans.length} orphans.</BIOS_TermInfo>)
+                    break;
+            }
+        }
+    }
+
     async function mainLoop(): Promise<void> {
         while (BIOS_RUNNING) {
 
@@ -205,6 +229,8 @@ export async function main(ns:NS) {
 
             RAM_FindNewSources();
             RAM_UpdatePersonalServers();
+
+            readNetworkMessages();
 
             await ns.asleep(750)
         }
@@ -266,4 +292,19 @@ export async function main(ns:NS) {
     BIOS_PAGE.write()
 
     await mainLoop();
+}
+
+export const enum BIOSNetworkMessageType {
+    DEFAULT = 1,
+    ECHO,
+    KILL_ORPHAN_ALLOCATIONS,
+    RESET_ALLOCATION_AMOUNT,
+    UPDATE_SERVER
+}
+
+/** standard structure for BIOS messaging */
+export interface BIOSNetworkMessage {
+    type: BIOSNetworkMessageType,
+    message: string,
+    extraData?: any
 }
