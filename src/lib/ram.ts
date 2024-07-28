@@ -249,7 +249,6 @@ export class ReservedRAM {
             RAM_ALLOCATIONS[obj.id] ||
             getSource(obj.host)?.reserve(obj.threads, obj.size)
         if (!revived) {
-            console.log(obj);
             throw new Error(`Could not revive allocation ID ${obj.id} on ${obj.host}`)
         }
         return revived;
