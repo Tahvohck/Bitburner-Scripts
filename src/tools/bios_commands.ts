@@ -1,5 +1,5 @@
 import { AutocompleteData, NS, ScriptArg } from '@ns'
-import { BIOSNetworkMessage, BIOSNetworkMessageType } from '/bios'
+import { BIOSNetworkMessage, BIOSNetworkMessageType } from '/bios_v1.1'
 import { Ports } from '/sys/ports'
 
 const Options = {
