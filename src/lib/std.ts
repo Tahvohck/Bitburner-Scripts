@@ -10,3 +10,7 @@ export function sleep(ms: number): Promise<void> {
         (nativeTimeout ?? setTimeout)(resolve, ms)
     })
 }
+
+export function optionsObjectToArgArray(options: object): any[] {
+    return Object.entries(options).flat(1)
+}
