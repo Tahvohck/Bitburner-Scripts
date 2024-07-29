@@ -54,11 +54,11 @@ export function tryNuke(ns:NS, target:string): boolean {
 
 
 export async function main(ns:NS) {
-    
     const runningBIOSes = ns.ps().filter(x => biosMatcher.test(x.filename))
     if(runningBIOSes.length > 1) {
         throw new Error(`Cannot run more than one BIOS at the same time. Kill PID ${runningBIOSes[0].pid} first.`)
     }
+    ns.ui.clearTerminal()
 
     //#region internal functions
     /** helper function to dynamically add an S */
