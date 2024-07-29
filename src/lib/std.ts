@@ -12,5 +12,10 @@ export function sleep(ms: number): Promise<void> {
 }
 
 export function optionsObjectToArgArray(options: object): any[] {
-    return Object.entries(options).flat(1)
+    return Object.entries(options)
+        .map(([k, v]) => {
+            const prefix: string = (k.length > 1) ? "--" : "-"
+            return [prefix + k, v]
+        })
+        .flat(1)
 }
