@@ -48,24 +48,24 @@ _"Proprietary biotech augmentations"_
 ### Bachman & Associates  
 _"Proprietary negotiation augmentations"_  
 **Specialty:**  SmartJaw
-- NeuroFlux Governor  
-- Speech Enhancement  
-- Nuoptimal Nootropic Injector Implant  
-- Neuralstimulator  
 - ADR-V2 Pheromone Gene  
-- FocusWire  
 - Enhanced Social Interaction Implant  
+- FocusWire  
+- Neuralstimulator  
+- NeuroFlux Governor  
+- Nuoptimal Nootropic Injector Implant  
+- Speech Enhancement   
 
 ### Clarke Incorporated
 _"Proprietary neurotech augmentations"_  
 **Specialty:** Neuronal Densification, nextSENS Gene Modification  
-- NeuroFlux Governor  
-- Speech Enhancement
-- Nuoptimal Nootropic Injector Implant
-- Neuralstimulator
 - ADR-V2 Pheromone Gene
-- FocusWire
 - Enhanced Social Interaction Implant  
+- FocusWire
+- Neuralstimulator
+- NeuroFlux Governor  
+- Nuoptimal Nootropic Injector Implant
+- Speech Enhancement
 
 ### ECorp
 _"Proprietary hacking augmentations"_  
