@@ -6,7 +6,7 @@ import { Pagefile, ReservedRAM, ServerRamUsage, free, halloc } from "/lib/ram";
 import { NullPort, Ports } from "/sys/ports";
 const { React } = globalThis;
 
-let biosMatcher = /bios.*?\.js/;
+const biosMatcher = /bios.*?\.js/;
 
 /** "Term Message Style Common" */
 const BIOS_TMSC: React.CSSProperties = {
