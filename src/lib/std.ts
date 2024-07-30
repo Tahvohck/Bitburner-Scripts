@@ -56,10 +56,19 @@ export class Base64 {
 
     static toNumber(rixits: string) {
         var result = 0;
-        const rixitArray = rixits.split('');
+        let rixitArray = rixits.split('');
+        let isNegative = rixitArray[0] == "-"
+        if (isNegative) {
+            rixitArray = rixitArray.slice(1)
+        }
         for (var e = 0; e < rixitArray.length; e++) {
             result = (result * 64) + this._Rixits.indexOf(rixitArray[e]);
         }
-        return result;
+
+        if (isNegative) {
+            return -result;
+        } else {
+            return result;
+        }
     }
 }
