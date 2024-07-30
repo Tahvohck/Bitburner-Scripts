@@ -7,6 +7,11 @@ import { NullPort, Ports } from "/sys/ports";
 const { React } = globalThis;
 
 const biosMatcher = /bios.*?\.js/;
+let BIOS_READY_FLAG = false;
+
+export function BIOS_READY() {
+    return BIOS_READY_FLAG;
+}
 
 /** "Term Message Style Common" */
 const BIOS_TMSC: React.CSSProperties = {
@@ -291,6 +296,7 @@ export async function main(ns:NS) {
     biosAlloc.associate(ns.pid) // associate the allocation with this BIOS
     BIOS_PAGE.write()
 
+    BIOS_READY_FLAG = true;
     await mainLoop();
 }
 
