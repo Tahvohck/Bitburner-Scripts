@@ -1,4 +1,4 @@
-import { CompanyName, CompanyPositionInfo, JobName, NS, WorkStats } from "@ns";
+import { CompanyName, CompanyPositionInfo, JobField, JobName, NS, WorkStats } from "@ns";
 import { AutocompleteData, ScriptArg } from "@ns";
 
 const Options = {
@@ -70,5 +70,7 @@ export async function main(ns: NS) {
     let nextPosition = sorted[Math.max(0, sorted.indexOf(filtered[0]) - 1)]
     ns.tprint(`Follow up with: ${nextPosition[0]}`)
 
+    let pi = ns.singularity.getCompanyPositionInfo(company, filtered[0][0] as JobName)
+    ns.singularity.applyToCompany(company, pi.field)
 }
 
