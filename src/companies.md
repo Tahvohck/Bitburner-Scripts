@@ -47,11 +47,25 @@ _"Proprietary biotech augmentations"_
 # Aevum
 ### Bachman & Associates  
 _"Proprietary negotiation augmentations"_  
-**Specialty:**  
+**Specialty:**  SmartJaw
+- NeuroFlux Governor  
+- Speech Enhancement  
+- Nuoptimal Nootropic Injector Implant  
+- Neuralstimulator  
+- ADR-V2 Pheromone Gene  
+- FocusWire  
+- Enhanced Social Interaction Implant  
 
 ### Clarke Incorporated
 _"Proprietary neurotech augmentations"_  
-**Specialty:**  
+**Specialty:** Neuronal Densification, nextSENS Gene Modification  
+- NeuroFlux Governor  
+- Speech Enhancement
+- Nuoptimal Nootropic Injector Implant
+- Neuralstimulator
+- ADR-V2 Pheromone Gene
+- FocusWire
+- Enhanced Social Interaction Implant  
 
 ### ECorp
 _"Proprietary hacking augmentations"_  
