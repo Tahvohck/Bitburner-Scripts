@@ -11,7 +11,7 @@ const secChangeHack =   0.002;
 const secChangeWeaken = 0.05;
 
 /** Base class for a unified cycle that has a way to prepare and execute without needing user setup. */
-export class Cycle {
+abstract class Cycle {
     delays = new HWGWData<number>(0)
     threads = new HWGWData<number>(0)
     allocations: ReservedRAM[] = []
@@ -43,12 +43,12 @@ export class Cycle {
     /** Prepare the cycle for execution
      * @returns the current object, to allow a new().prepare().execute() chain if desired.
      */
-    prepare(...args: any[]): Cycle { throw new Error("Child did not override prepare()")}
+    abstract prepare(): Cycle;
 
     /** Execute the cycle
      * @returns An awaitable promise
      */
-    async execute() { throw new Error("Child did not override execute()")}
+    abstract execute(): Promise<any>
 
     toString() { return `${this.prefix}_${this.cycleID}` }
 
