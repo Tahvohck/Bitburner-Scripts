@@ -1,12 +1,13 @@
 import { AutocompleteData, NS, ScriptArg } from "@ns";
 import { sleep } from "/lib/std";
 
-export const Options = {
+const Options = {
     threads: 1,
     target: "n00dles",
     delay: 0,
     action: Actions.NONE
 }
+export type Options = typeof Options
 const FLAGS = [...Object.entries(Options)]
 
 export function autocomplete(data: AutocompleteData, args: ScriptArg[]) {

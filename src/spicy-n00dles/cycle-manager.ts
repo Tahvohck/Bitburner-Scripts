@@ -145,7 +145,7 @@ export class HWGWCycle extends Cycle {
         this.readyGate()
 
         const ns = this.ns
-        const workerOptions = { target: this.target } as typeof WorkerOptions
+        const workerOptions = { target: this.target } as WorkerOptions
         const execOptions = { temporary: true } as RunOptions
 
         const deploy = (allocations: ReservedRAM[]) => {
@@ -219,7 +219,7 @@ export class SuppressionCycle extends Cycle {
         this.readyGate()
 
         const ns = this.ns
-        const workerOptions = { target: this.target } as typeof WorkerOptions
+        const workerOptions = { target: this.target } as WorkerOptions
         const execOptions = { temporary: true } as RunOptions
 
         const deploy = (allocations: ReservedRAM[]) => {
