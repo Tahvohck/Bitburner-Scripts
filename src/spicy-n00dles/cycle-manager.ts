@@ -50,6 +50,31 @@ abstract class Cycle {
      */
     abstract execute(): Promise<any>
 
+    /**
+     * Deploys to the worker server.
+     * @param totalThreads Total number of threads needed
+     * @param execOptions script run options (see ns.exec)
+     * @param scriptOptions Script flags object from the worker
+     * @throws An error if not enough threads can be reserved.
+     */
+    deploy(totalThreads: number, execOptions: RunOptions, scriptOptions: WorkerOptions) {
+        const ns = this.ns;
+        const allocations = malloc(totalThreads, RAMAmounts[scriptOptions.action])
+        if (allocations.length == 0) {
+            this.cleanup(true)
+            throw new Error(`Unable to reserve enough threads to run cycle on ${this.target}`)
+        }
+        for (const alloc of allocations) {
+            if (alloc.host != "home") { ns.scp(requiredWorkerFiles, alloc.host) }
+            
+            execOptions.threads = alloc.threads;
+            let pid = ns.exec(workerFile, alloc.host, execOptions, ...optionsObjectToArgArray(scriptOptions))
+            alloc.associate(pid)
+            
+            this.allocations.push(alloc)
+        }
+    }
+
     toString() { return `${this.prefix}_${this.cycleID}` }
 
     details() { return `${this.toString()}\nDEL ${this.delays}\nTHR ${this.threads}\n` }
@@ -144,37 +169,24 @@ export class HWGWCycle extends Cycle {
     override async execute() {
         this.readyGate()
 
-        const ns = this.ns
         const workerOptions = { target: this.target } as WorkerOptions
         const execOptions = { temporary: true } as RunOptions
 
-        const deploy = (allocations: ReservedRAM[]) => {
-            for (const alloc of allocations) {
-                if (alloc.host != "home") { ns.scp(requiredWorkerFiles, alloc.host) }
-                
-                execOptions.threads = alloc.threads;
-                let pid = ns.exec(workerFile, alloc.host, execOptions, ...optionsObjectToArgArray(workerOptions))
-                alloc.associate(pid)
-                
-                this.allocations.push(alloc)
-            }
-        }
-
         workerOptions.action = Actions.HACK
         workerOptions.delay = this.delays.bite
-        deploy(malloc(this.threads.bite, RAMAmounts[workerOptions.action]))
+        this.deploy(this.threads.bite, execOptions, workerOptions)
 
         workerOptions.action = Actions.WEAKEN
         workerOptions.delay = this.delays.biteClean
-        deploy(malloc(this.threads.biteClean, RAMAmounts[workerOptions.action]))
+        this.deploy(this.threads.biteClean, execOptions, workerOptions)
 
         workerOptions.action = Actions.GROW
         workerOptions.delay = this.delays.serve
-        deploy(malloc(this.threads.serve, RAMAmounts[workerOptions.action]))
+        this.deploy(this.threads.serve, execOptions, workerOptions)
 
         workerOptions.action = Actions.WEAKEN
         workerOptions.delay = this.delays.serveClean
-        deploy(malloc(this.threads.serveClean, RAMAmounts[workerOptions.action]))
+        this.deploy(this.threads.serveClean, execOptions, workerOptions)
 
         await sleep(this.totalTime)
         this.cleanup()
@@ -218,29 +230,16 @@ export class SuppressionCycle extends Cycle {
     override async execute(): Promise<void> {
         this.readyGate()
 
-        const ns = this.ns
         const workerOptions = { target: this.target } as WorkerOptions
         const execOptions = { temporary: true } as RunOptions
 
-        const deploy = (allocations: ReservedRAM[]) => {
-            for (const alloc of allocations) {
-                if (alloc.host != "home") { ns.scp(requiredWorkerFiles, alloc.host) }
-                
-                execOptions.threads = alloc.threads;
-                let pid = ns.exec(workerFile, alloc.host, execOptions, ...optionsObjectToArgArray(workerOptions))
-                alloc.associate(pid)
-                
-                this.allocations.push(alloc)
-            }
-        }
-
         workerOptions.action = Actions.GROW
         workerOptions.delay = this.delays.serve
-        deploy(malloc(this.threads.serve, RAMAmounts[workerOptions.action]))
+        this.deploy(this.threads.serve, execOptions, workerOptions)
 
         workerOptions.action = Actions.WEAKEN
         workerOptions.delay = this.delays.serveClean
-        deploy(malloc(this.threads.serveClean, RAMAmounts[workerOptions.action]))
+        this.deploy(this.threads.serveClean, execOptions, workerOptions)
 
         await sleep(this.totalTime)
         this.cleanup()
