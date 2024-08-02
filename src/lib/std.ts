@@ -7,7 +7,7 @@ declare global {
  */
 export function sleep(ms: number): Promise<void> {
     return new Promise(resolve => {
-        (nativeTimeout ?? setTimeout)(resolve, ms)
+        (globalThis?.nativeTimeout ?? setTimeout)(resolve, ms)
     })
 }
 
