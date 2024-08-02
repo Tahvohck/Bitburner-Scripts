@@ -67,6 +67,7 @@ export async function main(ns:NS) {
         // Decompress time
         ns.run("/sys/compress.js")
         ns.tprint("Done power leveling")
+        await ns.sleep(200)
         ns.singularity.softReset("")
     }
 }
