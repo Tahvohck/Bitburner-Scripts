@@ -13,7 +13,7 @@ export function sleep(ms: number): Promise<void> {
 
 export function optionsObjectToArgArray(options: object): any[] {
     return Object.entries(options)
-        .map(([k, v]) => {
+        .flatMap(([k, v]) => {
             const prefix: string = (k.length > 1) ? "--" : "-"
             if (typeof(v) == "boolean") {
                 return [prefix + k]
@@ -21,7 +21,6 @@ export function optionsObjectToArgArray(options: object): any[] {
                 return [prefix + k, v]
             }
         })
-        .flat(1)
 }
 
 /**
