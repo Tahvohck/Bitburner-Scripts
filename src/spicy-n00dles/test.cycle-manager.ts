@@ -39,14 +39,15 @@ export async function main(ns:NS) {
     await ns.asleep(0)
 
     ns.print("INFO Let's run an actual cycle")
-    cycle = new HWGWCycle(ns, "megacorp").prepare(0.5)
     let waiter: Promise<void>;
-    try{
-        waiter = cycle.execute()
-    } catch {
-        cycle = new HWGWCycle(ns, "n00dles").prepare(0.1)
-        waiter =  cycle.execute()
-    }
+
+    cycle = new HWGWCycle(ns, "megacorp").prepare(0.5)
+    waiter = cycle.execute().catch(() => {    
+        ns.print("ERROR: Failed to run on megacorp. Defaulting to n00dles. Old cycle:\n" + cycle.details())
+        cycle = new HWGWCycle(ns, "n00dles").prepare(0.5)
+        return cycle.execute()
+    })
+    await ns.asleep(0)
 
     ns.print(cycle.details())
     await waiter;
