@@ -80,6 +80,8 @@ function convertMsToReadable(ms: number): string {
     const threshMs = 1500
     const threshS = 300
     const threshMin = 100
+    const threshHr = 96
+    const threshDay = 28
     ms = Math.floor(ms)
     if (ms < threshMs) {
         return ms.toLocaleString() + " ms"
@@ -93,5 +95,13 @@ function convertMsToReadable(ms: number): string {
         return min.toLocaleString() + " min"
     }
     const hour = Math.floor(min / 6) / 10
+    if (hour < threshHr) {
     return hour.toLocaleString() + " hr"
+}
+    const day = Math.floor(hour / 2.4) / 10
+    if (day < threshDay) {
+        return day.toLocaleString() + " day"
+    }
+    const week = Math.floor(day / 0.7) / 10
+    return week.toLocaleString() + " week"
 }
