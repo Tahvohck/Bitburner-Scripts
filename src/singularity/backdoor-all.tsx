@@ -12,6 +12,10 @@ export async function main(ns:NS) {
 }
 
 async function recursiveBackdoor(ns:NS, root: string, alreadyVisited: Set<string>) {
+    if (root == "w0r1d_d43m0n") {
+        ns.tprintRaw("REFUSING TO BACKDOOR THE WORLD DAEMON AUTOMATICALLY")
+        return
+    }
     await ns.asleep(20)
     let server = ns.getServer(root)!
     if (
