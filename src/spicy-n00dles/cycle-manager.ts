@@ -14,9 +14,9 @@ const secChangeWeaken = 0.05;
 abstract class Cycle {
     delays = new HWGWData<number>(0)
     threads = new HWGWData<number>(0)
-    allocations: ReservedRAM[] = []
+    protected allocations: ReservedRAM[] = []
 
-    cycleID: string;
+    protected cycleID: string;
     ready = false
     totalTime = 0
 
