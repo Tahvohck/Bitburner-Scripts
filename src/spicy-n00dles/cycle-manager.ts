@@ -115,7 +115,7 @@ export class HWGWCycle extends Cycle {
         const timeWeaken    = ns.getWeakenTime(this.target)
 
         const estimatedHackAmount = currentMoney * skimFraction
-        const growRatio = Math.min(1 + estimatedHackAmount / (currentMoney - estimatedHackAmount), 10)
+        const growRatio = Math.min(1 / (1 - skimFraction), 10)
 
         const sanitize = (x: number) => Math.max(1, Math.ceil(x))
     
