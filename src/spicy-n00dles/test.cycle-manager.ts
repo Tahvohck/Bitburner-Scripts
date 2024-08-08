@@ -42,6 +42,7 @@ export async function main(ns:NS) {
     let waiter: Promise<void>;
 
     cycle = new HWGWCycle(ns, "megacorp").prepare(0.5)
+    ns.print(`Expected income rate: \$${ns.formatNumber(cycle.priorityScore())} / sec`)
     waiter = cycle.execute().catch(() => {    
         ns.print("ERROR: Failed to run on megacorp. Defaulting to n00dles. Old cycle:\n" + cycle.details())
         cycle = new HWGWCycle(ns, "n00dles").prepare(0.5)
