@@ -36,8 +36,9 @@ abstract class Cycle {
     ) {
         // Set up cycle ID string. Has the current ms as a 64-radix string to semi-uniquely identify it.
         // Add additional uniqueness with a 64-radix generated from a random number up to 0xFFF_FFF (encoded ////)
-        this.cycleID = `${this.target}_${this.ns.pid}_${Base64.fromNumber(Date.now())}_`
+        this.cycleID = `${this.ns.pid}_${Base64.fromNumber(Date.now())}_`
         this.cycleID += Base64.fromNumber(Math.random() * 0xFFF_FFF).padStart(4, "0")
+        this.cycleID += `_${this.target}`
     }
 
     /** Prepare the cycle for execution
@@ -108,7 +109,7 @@ abstract class Cycle {
                 this.ns.kill(pid)
             }
         }
-        if (printMessage) { this.ns.print("ERROR: " + this.cycleID + " cleaned up early") }
+        if (printMessage) { this.ns.print("ERROR: " + this.toString() + " cleaned up early") }
         this.ns.atExit(() => {}, this.cycleID)
     }
 
