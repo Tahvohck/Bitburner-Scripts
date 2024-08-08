@@ -1,5 +1,5 @@
 import type { NS, RunOptions } from "@ns";
-import { free, malloc, type ReservedRAM } from "/lib/ram";
+import { free, malloc, Pagefile, type ReservedRAM } from "/lib/ram";
 import { Actions, RAMAmounts, Options as WorkerOptions } from "spicy-n00dles/worker"
 import { Base64, optionsObjectToArgArray, sleep } from "/lib/std";
 
@@ -33,6 +33,7 @@ abstract class Cycle {
         protected readonly target: string,
         protected readonly tolerance: number = 100,
         protected readonly extraDelay: number = 0,
+        protected readonly page: Pagefile | undefined = undefined
     ) {
         // Set up cycle ID string. Has the current ms as a 64-radix string to semi-uniquely identify it.
         // Add additional uniqueness with a 64-radix generated from a random number up to 0xFFF_FFF (encoded ////)
@@ -90,6 +91,9 @@ abstract class Cycle {
             execOptions.threads = alloc.threads;
             let pid = ns.exec(workerFile, alloc.host, execOptions, ...optionsObjectToArgArray(scriptOptions))
             alloc.associate(pid)
+            if (this.page != null) {
+                this.page.push(alloc)
+            }
             
             this.allocations.push(alloc)
         }
