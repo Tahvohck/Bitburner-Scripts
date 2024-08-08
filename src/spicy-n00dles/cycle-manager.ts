@@ -45,10 +45,29 @@ abstract class Cycle {
      */
     abstract prepare(): Cycle;
 
+    /**
+     * Internal code used to execute, defined by the child
+     */
+    abstract executeLogic(): any
+
     /** Execute the cycle
      * @returns An awaitable promise
      */
-    abstract execute(): Promise<any>
+    async execute(): Promise<any> {
+        this.readyGate()
+        this.executeLogic()
+        const hostingServers: Set<string> = new Set(this.allocations.map(x => x.host))
+        const associatedPIDs: Set<number> = new Set(this.allocations.flatMap(x => x.pids))
+        let runningPIDs;
+        do {
+            runningPIDs = [...hostingServers]
+                .flatMap(x => this.ns.ps(x))
+                .filter(x => associatedPIDs.has(x.pid))
+                .length
+            await sleep(100)
+        } while(runningPIDs > 0)
+        this.cleanup()
+    }
 
     /**
      * Deploys to the worker server.
@@ -166,9 +185,7 @@ export class HWGWCycle extends Cycle {
         return this
     }
 
-    override async execute() {
-        this.readyGate()
-
+    override executeLogic() {
         const workerOptions = { target: this.target } as WorkerOptions
         const execOptions = { temporary: true } as RunOptions
 
@@ -187,9 +204,6 @@ export class HWGWCycle extends Cycle {
         workerOptions.action = Actions.WEAKEN
         workerOptions.delay = this.delays.serveClean
         this.deploy(this.threads.serveClean, execOptions, workerOptions)
-
-        await sleep(this.totalTime)
-        this.cleanup()
     }
 }
 
@@ -227,9 +241,7 @@ export class SuppressionCycle extends Cycle {
         return this
     }
 
-    override async execute(): Promise<void> {
-        this.readyGate()
-
+    override async executeLogic(): Promise<void> {
         const workerOptions = { target: this.target } as WorkerOptions
         const execOptions = { temporary: true } as RunOptions
 
@@ -240,9 +252,6 @@ export class SuppressionCycle extends Cycle {
         workerOptions.action = Actions.WEAKEN
         workerOptions.delay = this.delays.serveClean
         this.deploy(this.threads.serveClean, execOptions, workerOptions)
-
-        await sleep(this.totalTime)
-        this.cleanup()
     }
 }
 
