@@ -24,6 +24,25 @@ export function optionsObjectToArgArray(options: object): any[] {
 }
 
 /**
+ * @returns a tuple of all `[passed, failed]` elements.
+ * @author Eats
+ */
+export function splitFilter<T>(arr: T[], filterFn: (element: T, index: number) => boolean): [T[], T[]] {
+    const passed: T[] = [];
+    const failed: T[] = [];
+
+    arr.forEach((element, index) => {
+        if (filterFn(element, index)) {
+            passed.push(element);
+        } else {
+            failed.push(element);
+        }
+    });
+
+    return [passed, failed];
+}
+
+/**
  * Number to base 64 code.
  * Taken from https://stackoverflow.com/questions/6213227/fastest-way-to-convert-a-number-to-radix-64-in-javascript
  */
