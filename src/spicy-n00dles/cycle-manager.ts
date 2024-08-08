@@ -30,7 +30,7 @@ abstract class Cycle {
      */
     constructor(
         protected readonly ns: NS,
-        protected readonly target: string,
+        readonly target: string,
         protected readonly tolerance: number = 100,
         protected readonly extraDelay: number = 0,
         protected readonly page: Pagefile | undefined = undefined
