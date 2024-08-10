@@ -1,4 +1,4 @@
-import { AutocompleteData, NS, ScriptArg } from "@ns";
+import { AutocompleteData, BasicHGWOptions, NS, ScriptArg } from "@ns";
 import { sleep } from "/lib/std";
 
 const Options = {
@@ -17,18 +17,20 @@ export function autocomplete(data: AutocompleteData, args: ScriptArg[]) {
 
 export async function main(ns:NS) {
     const options = ns.flags(FLAGS) as typeof Options
-    await sleep(options.delay)
     ns.ramOverride(RAMAmounts[options.action])
+    const hgwOptions = {
+        additionalMsec: options.delay
+    } as BasicHGWOptions
 
     switch (options.action) {
         case Actions.HACK:
-            await ns.hack(options.target)
+            await ns.hack(options.target, hgwOptions)
             break;
         case Actions.GROW:
-            await ns.grow(options.target)
+            await ns.grow(options.target, hgwOptions)
             break;
         case Actions.WEAKEN:
-            await ns.weaken(options.target)
+            await ns.weaken(options.target, hgwOptions)
             break;
         default:
             return; // Return early if action is not set correctly
