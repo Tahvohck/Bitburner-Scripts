@@ -44,10 +44,11 @@ export async function main(ns:NS) {
     ns.disableLog("ALL")
     let incomeSources = [...ALL_SERVERS.values()]
         .filter(s => s.hackRequirement < ns.getHackingLevel() && s.moneyMax > 0)
-        .sort((a, b) => { return (
-            1_000_000 / (a.moneyMax / ns.getHackTime(a.hostname)) -
-            1_000_000 / (b.moneyMax / ns.getHackTime(b.hostname))
-        )})
+        .sort((a, b) => { 
+            const aRate = ns.getServerMoneyAvailable(a.hostname) / ns.getHackTime(a.hostname)
+            const bRate = ns.getServerMoneyAvailable(b.hostname) / ns.getHackTime(b.hostname)
+            return bRate - aRate
+        })
     const incomeData = incomeSources
         .map((s) => <TableRow {...parseRelevantData(ns, s)} />)
     let table = <table>
@@ -96,8 +97,8 @@ function convertMsToReadable(ms: number): string {
     }
     const hour = Math.floor(min / 6) / 10
     if (hour < threshHr) {
-    return hour.toLocaleString() + " hr"
-}
+        return hour.toLocaleString() + " hr"
+    }
     const day = Math.floor(hour / 2.4) / 10
     if (day < threshDay) {
         return day.toLocaleString() + " day"
