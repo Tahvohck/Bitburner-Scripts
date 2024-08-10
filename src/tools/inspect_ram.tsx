@@ -4,7 +4,8 @@ import { RAM_SOURCES } from "sys/memory";
 const {React} = globalThis;
 
 const Options = {
-    all: false
+    all: false,
+    printToLog: false
 }
 let FLAGS = [...Object.entries(Options)]
 let infoLight: string;
@@ -67,7 +68,15 @@ export async function main(ns:NS) {
         ns.print("ERRROR: Couldn't get free threads")
         freeThreads = -1
     }
-    ns.tprintRaw(
+    let printfunc: typeof ns.printRaw;
+    if (options.printToLog) {
+        ns.tail()
+        ns.resizeTail(700, 400)
+        printfunc = ns.printRaw
+    } else {
+        printfunc = ns.tprintRaw
+    }
+    printfunc(
         <div style={style}>
             <ul>{usage}</ul>
             <div>Hiding {unused} servers with no usage</div>
