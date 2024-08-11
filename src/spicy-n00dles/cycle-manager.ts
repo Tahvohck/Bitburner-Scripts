@@ -90,6 +90,7 @@ abstract class Cycle {
             if (alloc.host != "home") { ns.scp(requiredWorkerFiles, alloc.host) }
             
             execOptions.threads = alloc.threads;
+            execOptions.ramOverride = RAMAmounts[scriptOptions.action]
             let pid = ns.exec(workerFile, alloc.host, execOptions, ...optionsObjectToArgArray(scriptOptions))
             alloc.associate(pid)
             if (this.page != null) {
