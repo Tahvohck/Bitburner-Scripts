@@ -66,6 +66,11 @@ export async function main(ns: NS) {
         filtered
     })
 
+    if (filtered.length == 0) {
+        ns.tprint("Cannot apply to any jobs at " + company)
+        return
+    }
+
     ns.tprint(`Best position at ${company} is ${filtered[0][0]}`)
     let nextPosition = sorted[Math.max(0, sorted.indexOf(filtered[0]) - 1)]
     ns.tprint(`Follow up with: ${nextPosition[0]}`)
