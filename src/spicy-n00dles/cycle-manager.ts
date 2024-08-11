@@ -243,7 +243,7 @@ export class SuppressionCycle extends Cycle {
         return this
     }
 
-    override async executeLogic(): Promise<void> {
+    override executeLogic(): void {
         const workerOptions = { target: this.target } as WorkerOptions
         const execOptions = { temporary: true } as RunOptions
 
