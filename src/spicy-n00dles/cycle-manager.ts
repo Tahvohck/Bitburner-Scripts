@@ -2,6 +2,7 @@ import type { NS, RunOptions } from "@ns";
 import { free, malloc, Pagefile, type ReservedRAM } from "/lib/ram";
 import { Actions, RAMAmounts, Options as WorkerOptions } from "spicy-n00dles/worker"
 import { Base64, optionsObjectToArgArray, sleep } from "/lib/std";
+import { ALL_SERVERS } from "/sys/network";
 
 const workerFile = "spicy-n00dles/worker.js"
 const requiredWorkerFiles = [
@@ -230,9 +231,10 @@ export class SuppressionCycle extends Cycle {
         this.threads.serve = Math.ceil(ns.growthAnalyze(this.target, growth))
 
         // Set up the threads for weakening. Weaken is so cheap we might as well do it all at once.
-        this.threads.serveClean =  ns.getServerSecurityLevel(this.target)
-        this.threads.serveClean -= ns.getServerMinSecurityLevel(this.target)
-        this.threads.serveClean += ns.growthAnalyzeSecurity(this.threads.serve)
+        this.threads.serveClean = Math.min(
+            ns.growthAnalyzeSecurity(this.threads.serve) * 20,
+            ns.getServerSecurityLevel(this.target) - ALL_SERVERS.get(this.target)!.minSec
+        )
         this.threads.serveClean /= secChangeWeaken
         this.threads.serveClean =  Math.max(1, Math.ceil(this.threads.serveClean))
 
