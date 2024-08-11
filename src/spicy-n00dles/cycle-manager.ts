@@ -246,7 +246,7 @@ export class SuppressionCycle extends Cycle {
         this.threads.serveClean =  Math.max(1, Math.ceil(this.threads.serveClean))
 
         this.ready = true
-        this.totalTime = Math.ceil(this.delays.serveClean)
+        this.totalTime = Math.ceil(this.delays.serveClean + timeWeaken)
         return this
     }
 
