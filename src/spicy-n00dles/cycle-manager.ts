@@ -82,7 +82,7 @@ abstract class Cycle {
     deploy(totalThreads: number, execOptions: RunOptions, scriptOptions: WorkerOptions) {
         const ns = this.ns;
         const allocations = malloc(totalThreads, RAMAmounts[scriptOptions.action])
-        if (allocations.length == 0) {
+        if (allocations.reduce((p,v) => p += v.threads, 0) < totalThreads) {
             this.cleanup(true)
             throw new Error(`Unable to reserve enough threads to run cycle on ${this.target}`)
         }
