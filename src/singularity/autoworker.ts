@@ -8,8 +8,11 @@ const Options = {
 const FLAGS = [...Object.entries(Options)]
 
 export function autocomplete(data: AutocompleteData, args: ScriptArg[]) {
-    const options = data.flags(FLAGS) as typeof Options
-    return [];
+    if (args.length <= 2) {
+        let temp = data.flags(FLAGS)
+        return Object.values(data.enums.CompanyName).map(x => (x.includes(" ")) ? `"${x}"` : x)
+    }
+    return []
 }
 
 export async function main(ns: NS) {
