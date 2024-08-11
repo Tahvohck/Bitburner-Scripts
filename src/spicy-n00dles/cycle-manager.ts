@@ -20,6 +20,7 @@ abstract class Cycle {
     protected cycleID: string;
     ready = false
     totalTime = 0
+    protected expectedPayout = 0
 
     protected prefix = "base"
 
@@ -65,6 +66,10 @@ abstract class Cycle {
             await sleep(this.tolerance)
         } 
         this.cleanup()
+    }
+
+    getExpectedPayout() {
+        return this.expectedPayout
     }
 
     /**
@@ -180,6 +185,7 @@ export class HWGWCycle extends Cycle {
         
         // Set the total time the cycle would take.
         this.totalTime = Math.ceil(this.delays.serveClean + timeWeaken)
+        this.expectedPayout = estimatedHackAmount
 
         // Cycle is now ready.
         this.ready = true
