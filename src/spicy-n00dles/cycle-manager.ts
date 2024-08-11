@@ -295,4 +295,13 @@ class HWGWData<T> {
         const serveCleanString =    `${this.serveClean}`.padStart(width)
         return `HK: ${biteString} WE: ${biteCleanString} GR:${serveString} WE: ${serveCleanString}`
     }
+
+    toArray() {
+        return [
+            this.bite,
+            this.biteClean,
+            this.serve,
+            this.serveClean,
+        ]
+    }
 }
