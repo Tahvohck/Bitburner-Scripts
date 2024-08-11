@@ -170,8 +170,8 @@ export class HWGWCycle extends Cycle {
         // The hack process gets a special clamping - it gets floored first, because using ceil might hack TOO MUCH
         // money from the server. Doing this allows us to get rid of a 1GB hackAnalyze call we might otherwise use.
         this.threads.bite = ns.hackAnalyzeThreads(this.target, currentMoney * skimFraction)
-        // We can't hack that much from this server, return early
-        if (this.threads.bite == -1) { return this }
+        // We can't hack from the server, return a very high thread requirement
+        if (this.threads.bite == -1) { this.threads.bite = 1e40 }
         this.threads.bite = sanitize(Math.floor(this.threads.bite))
         //this.threads.bite = Math.max(1, this.threads.bite)
 
