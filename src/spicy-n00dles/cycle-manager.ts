@@ -58,16 +58,11 @@ abstract class Cycle {
     async execute(): Promise<any> {
         this.readyGate()
         this.executeLogic()
-        const hostingServers: Set<string> = new Set(this.allocations.map(x => x.host))
         const associatedPIDs: Set<number> = new Set(this.allocations.flatMap(x => x.pids))
         let runningPIDs;
-        do {
-            runningPIDs = [...hostingServers]
-                .flatMap(x => this.ns.ps(x))
-                .filter(x => associatedPIDs.has(x.pid))
-                .length
-            await sleep(100)
-        } while(runningPIDs > 0)
+        while([...associatedPIDs].some(x => this.ns.isRunning(x))) {
+            await sleep(this.tolerance)
+        } 
         this.cleanup()
     }
 
