@@ -51,7 +51,7 @@ function tryNuke(ns:NS, target:string): boolean {
     try { ns.sqlinject(target); crackers++; } catch {}
     try { 
         ns.nuke(target);
-        return true;
+        return ns.getServer(target).hasAdminRights;
     } catch {
         return false;
     }
