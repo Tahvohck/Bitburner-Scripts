@@ -42,7 +42,7 @@ export function getCrackerCount():number {
  * @param target Server to nuke
  * @returns true if successful
 */
-export function tryNuke(ns:NS, target:string): boolean {
+function tryNuke(ns:NS, target:string): boolean {
     crackers = 0;
     try { ns.brutessh (target); crackers++; } catch {}
     try { ns.ftpcrack (target); crackers++; } catch {}
@@ -54,6 +54,21 @@ export function tryNuke(ns:NS, target:string): boolean {
         return true;
     } catch {
         return false;
+    }
+}
+
+export async function nuke(ns:NS, target: string): Promise<boolean> {
+    ns.writePort(Ports.BIOS, {
+        message: target,
+        type: BIOSNetworkMessageType.REQUEST_NUKE
+    } as BIOSNetworkMessage)
+    await ns.nextPortWrite(Ports.BIOS_RESPONSE)
+
+    const resp = ns.readPort(Ports.BIOS_RESPONSE)
+    if (typeof(resp) != "boolean") {
+        return false
+    } else {
+        return resp
     }
 }
 
@@ -222,6 +237,9 @@ export async function main(ns:NS) {
                     for (const orphan of orphans) { free(orphan!) }
                     ns.tprintRaw(<BIOS_TermInfo>Freed {orphans.length} orphans.</BIOS_TermInfo>)
                     break;
+                case BIOSNetworkMessageType.REQUEST_NUKE:
+                    ns.writePort(Ports.BIOS_RESPONSE, tryNuke(ns, data.message))
+                    break;
             }
         }
     }
@@ -305,7 +323,8 @@ export const enum BIOSNetworkMessageType {
     ECHO,
     KILL_ORPHAN_ALLOCATIONS,
     RESET_ALLOCATION_AMOUNT,
-    UPDATE_SERVER
+    UPDATE_SERVER,
+    REQUEST_NUKE
 }
 
 /** standard structure for BIOS messaging */
