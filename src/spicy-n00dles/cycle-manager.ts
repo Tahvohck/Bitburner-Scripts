@@ -52,7 +52,7 @@ abstract class Cycle {
     /**
      * Internal code used to execute, defined by the child
      */
-    abstract executeLogic(): any
+    protected abstract executeLogic(): any
 
     /** Execute the cycle
      * @returns An awaitable promise
@@ -79,7 +79,7 @@ abstract class Cycle {
      * @param scriptOptions Script flags object from the worker
      * @throws An error if not enough threads can be reserved.
      */
-    deploy(totalThreads: number, execOptions: RunOptions, scriptOptions: WorkerOptions) {
+    protected deploy(totalThreads: number, execOptions: RunOptions, scriptOptions: WorkerOptions) {
         const ns = this.ns;
         const allocations = malloc(totalThreads, RAMAmounts[scriptOptions.action])
         if (allocations.reduce((p,v) => p += v.threads, 0) < totalThreads) {
@@ -109,7 +109,7 @@ abstract class Cycle {
      * Clean up this cycle.
      * @param printMessage Print message about early cleanup if true
      */
-    cleanup(printMessage = false) {
+    protected cleanup(printMessage = false) {
         for (const alloc of this.allocations) { 
             for (const pid of free(alloc)) {
                 this.ns.kill(pid)
@@ -119,7 +119,7 @@ abstract class Cycle {
         this.ns.atExit(() => {}, this.cycleID)
     }
 
-    readyGate() {
+    protected readyGate() {
         if (!this.ready) { throw new Error("Cycle is not ready to execute. Hack level might not be high enough") }
         this.ns.atExit(() => {
             this.cleanup(true)
@@ -197,7 +197,7 @@ export class HWGWCycle extends Cycle {
         return this
     }
 
-    override executeLogic() {
+    protected override executeLogic() {
         const workerOptions = { target: this.target } as WorkerOptions
         const execOptions = { temporary: true } as RunOptions
 
@@ -254,7 +254,7 @@ export class SuppressionCycle extends Cycle {
         return this
     }
 
-    override executeLogic(): void {
+    protected override executeLogic(): void {
         const workerOptions = { target: this.target } as WorkerOptions
         const execOptions = { temporary: true } as RunOptions
 
