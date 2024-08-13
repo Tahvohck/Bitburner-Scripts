@@ -21,7 +21,7 @@ abstract class Cycle {
     ready = false
     totalTime = 0
     protected expectedPayout = 0
-
+    protected valid = true
     protected prefix = "base"
 
     /**
@@ -62,7 +62,7 @@ abstract class Cycle {
         this.executeLogic()
         const associatedPIDs: Set<number> = new Set(this.allocations.flatMap(x => x.pids))
         let runningPIDs;
-        while([...associatedPIDs].some(x => this.ns.isRunning(x))) {
+        while(this.valid && [...associatedPIDs].some(x => this.ns.isRunning(x))) {
             await sleep(this.tolerance)
         } 
         this.cleanup()
@@ -124,6 +124,10 @@ abstract class Cycle {
         this.ns.atExit(() => {
             this.cleanup(true)
         }, this.cycleID)
+    }
+
+    invalidate() {
+        this.valid = false;
     }
 }
 
