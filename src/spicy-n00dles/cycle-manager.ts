@@ -130,6 +130,7 @@ abstract class Cycle {
         this.valid = false;
     }
 }
+export type BaseCycle = InstanceType<typeof Cycle>
 
 /** Full HWGW cycle. */
 export class HWGWCycle extends Cycle {
