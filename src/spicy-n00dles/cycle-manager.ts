@@ -234,6 +234,22 @@ export class HWGWCycle extends Cycle {
             return Number.NEGATIVE_INFINITY;
         }
     }
+
+    optimize(maxThreads = Number.MAX_SAFE_INTEGER): this {
+        const spread = [...Array(100).keys()].map(x => {
+            const priority = this.prepare( x/100 ).priorityScore()
+            const threadsNeeded = this.threads.toArray().reduce((p,v) => p + v)
+            if ( threadsNeeded > maxThreads) {
+                return 0
+            } else {
+                return priority
+            }
+        })
+        const best = Math.max(...spread)
+        const ratio = spread.findIndex(x => x == best) / 100
+        this.prepare(ratio/100)
+        return this
+    }
 }
 
 /** Cycle that only grows and weakens */

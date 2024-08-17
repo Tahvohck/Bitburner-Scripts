@@ -60,4 +60,6 @@ export async function main(ns:NS) {
         `EXP:   ${ns.formatNumber(stats.onlineExpGained + stats.offlineExpGained)}`
     )
 
+    ns.print(cycle.optimize().priorityScore())
+    ns.print(cycle.optimize(10).priorityScore())
 }
