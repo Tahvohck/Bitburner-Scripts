@@ -67,6 +67,12 @@ abstract class Cycle {
         } 
         this.cleanup()
     }
+    
+    abstract priorityScore(): number
+    /**
+     * @param [moneyNormalizer=1] A value to normalize the money across multiple cycles, probably the max income value 
+     * @returns Income rate in money per millisecond-thread
+    */
 
     getExpectedPayout() {
         return this.expectedPayout
@@ -218,6 +224,16 @@ export class HWGWCycle extends Cycle {
         workerOptions.delay = this.delays.serveClean
         this.deploy(this.threads.serveClean, execOptions, workerOptions)
     }
+
+    override priorityScore(moneyNormalizer = 1) {
+        let totalThreads = 0
+        this.threads.adjustAll(x => {totalThreads += x; return x})
+        if (this.ready) {
+            return Math.log1p(this.expectedPayout / (this.totalTime * totalThreads * moneyNormalizer))
+        } else {
+            return Number.NEGATIVE_INFINITY;
+        }
+    }
 }
 
 /** Cycle that only grows and weakens */
@@ -266,6 +282,18 @@ export class SuppressionCycle extends Cycle {
         workerOptions.action = Actions.WEAKEN
         workerOptions.delay = this.delays.serveClean
         this.deploy(this.threads.serveClean, execOptions, workerOptions)
+    }
+
+    /**
+     * @returns A priority score based on statically-available information. Higher is better.
+     */
+    override priorityScore(): number {
+        const ssi = ALL_SERVERS.get(this.target)
+        if (ssi == undefined) {
+            return Number.NEGATIVE_INFINITY
+        }
+
+        return ssi.moneyMax * ssi.serverGrowth * (100 - ssi.minSec)
     }
 }
 
